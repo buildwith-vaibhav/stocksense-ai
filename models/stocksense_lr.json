@@ -1,0 +1,28 @@
+{
+  "model_type": "logistic_regression",
+  "version": "stage7-v1",
+  "feature_names": [
+    "rsi_14_norm",
+    "price_vs_sma20",
+    "price_vs_sma50",
+    "sma20_vs_sma50",
+    "macd_hist_norm",
+    "atr_pct"
+  ],
+  "coefficients": [
+    -1.2,
+    0.9,
+    2.0,
+    1.1,
+    1.4,
+    -0.3
+  ],
+  "intercept": -0.15,
+  "metrics": {
+    "accuracy": 0.0,
+    "auc": 0.0,
+    "n_train": 0,
+    "note": "Default seed weights; retrain with ml/train_model.py for real metrics"
+  },
+  "notes": "probability_up = sigmoid(dot(coef, features) + intercept)"
+}
