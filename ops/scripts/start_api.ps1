@@ -1,4 +1,4 @@
-# Start StockSense API - set your local paths and secrets
+# Start StockSense API (Stage 8) - set your local paths and secrets
 
 $Root = "D:\stocksense-ai"
 $Exe = Join-Path $Root "build\Release\stocksense_api.exe"

@@ -11,7 +11,7 @@ option(STOCKSENSE_USE_POSTGRES "Enable PostgreSQL backend" ON)
 
 include(FetchContent)
 
-# ---------- Asio (header-only via ZIP) ----------
+# ---------- Asio (header-only via ZIP — avoids git/subbuild failures on MSVC) ----------
 FetchContent_Declare(
   asio
   URL https://github.com/chriskohlhoff/asio/archive/refs/tags/asio-1-30-2.zip
@@ -21,6 +21,7 @@ FetchContent_GetProperties(asio)
 if(NOT asio_POPULATED)
   FetchContent_Populate(asio)
 endif()
+# Zip extracts to asio-asio-1-30-2/ (repo-name-tag)
 if(EXISTS "${asio_SOURCE_DIR}/asio/include")
   set(ASIO_INCLUDE_DIR "${asio_SOURCE_DIR}/asio/include" CACHE PATH "" FORCE)
 else()
@@ -59,7 +60,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(spdlog)
 
-# ---------- libpqxx ----------
+# ---------- libpqxx (PostgreSQL C++ client) ----------
 if(STOCKSENSE_USE_POSTGRES)
   find_package(PostgreSQL REQUIRED)
   FetchContent_Declare(
@@ -73,6 +74,7 @@ if(STOCKSENSE_USE_POSTGRES)
   FetchContent_MakeAvailable(libpqxx)
 endif()
 
+# ---------- Sources ----------
 set(STOCKSENSE_SOURCES
   src/main.cpp
   src/services/ConfigService.cpp
@@ -127,6 +129,7 @@ else()
   target_compile_options(stocksense_api PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
+# ---------- Tests ----------
 if(STOCKSENSE_BUILD_TESTS)
   enable_testing()
   FetchContent_Declare(
@@ -137,6 +140,7 @@ if(STOCKSENSE_BUILD_TESTS)
   )
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(googletest)
+
   add_executable(stocksense_tests
     tests/test_main.cpp
     tests/test_health.cpp

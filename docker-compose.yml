@@ -1,3 +1,6 @@
+# StockSense AI — Stage 3
+# PostgreSQL with schema + seed. API runs natively on Windows.
+
 services:
   db:
     image: postgres:16-alpine
